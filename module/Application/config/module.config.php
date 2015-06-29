@@ -7,7 +7,12 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-use Application\Controller\GitlabController;
+use Application\Command\QueueRefreshCommand;
+use Application\Command\QueueRefreshCommandHandler;
+use Application\Command\RespondToWebHookCommand;
+use Application\Command\RespondToWebHookCommandHandler;
+use Application\CommandBus\CommandBusFactory;
+use Application\Controller\GitlabControllerFactory;
 use Zend\Db\Adapter\AdapterAbstractServiceFactory;
 
 return array(
@@ -63,6 +68,15 @@ return array(
         ),
         'factories' => array(
             'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
+            'commandBus' => CommandBusFactory::class,
+            RespondToWebHookCommandHandler::class => function ($sm){
+                $instance = new RespondToWebHookCommandHandler();
+                $instance->setCommandBus($sm->get('commandBus'));
+                return $instance;
+            }
+        ),
+        'invokables' => array(
+            QueueRefreshCommandHandler::class => QueueRefreshCommandHandler::class,
         ),
     ),
     'translator' => array(
@@ -78,8 +92,10 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
-            'Application\Controller\Gitlab' => GitlabController::class
         ),
+        'factories' => [
+            'Application\Controller\Gitlab' => GitlabControllerFactory::class
+        ]
     ),
     'view_manager' => array(
         'display_not_found_reason' => true,

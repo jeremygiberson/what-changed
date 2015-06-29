@@ -9,14 +9,24 @@
 namespace Application\Controller;
 
 
+use Application\Command\RespondToWebHookCommand;
+use Application\CommandBus\CommandBusAwareInterface;
+use Application\CommandBus\CommandBusAwareTrait;
 use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
 
-class GitlabController extends AbstractActionController
+class GitlabController extends AbstractActionController implements CommandBusAwareInterface
 {
+    use CommandBusAwareTrait;
+
     public function hookAction()
     {
-        file_put_contents(__DIR__ . '/../../../../../data/hook.request', $this->getRequest()->getContent());
+        $json = json_decode($this->getRequest()->getContent());
+
+        $command = new RespondToWebHookCommand($json->repository->url);
+
+        $this->getCommandBus()->handle($command);
+
         return new Response();
     }
 }
