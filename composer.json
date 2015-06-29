@@ -1,0 +1,16 @@
+{
+    "name": "hotdog/what-changed",
+    "description": "git log aggregator",
+    "license": "BSD-3-Clause",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:jeremygiberson/ZfSimpleMigrations.git"
+        }
+    ],
+    "require": {
+        "php": ">=5.5",
+        "zendframework/zendframework": "~2.5",
+        "vgarvardt/zf-simple-migrations": "dev-master"
+    }
+}
