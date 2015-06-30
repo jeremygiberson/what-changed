@@ -17,7 +17,12 @@ use Application\CommandBus\CommandBusFactory;
 use Application\Controller\ConsoleControllerFactory;
 use Application\Controller\GitlabControllerFactory;
 use Application\Controller\RegistrationControllerFactory;
+use Application\Model\CommitFileStatus;
+use Application\Model\CommitLog;
+use Application\Model\Mapper\CommitFileStatusMapper;
+use Application\Model\Mapper\CommitLogMapper;
 use Application\Model\Mapper\RepositoryMapper;
+use Application\Model\Repository;
 use Zend\Db\Adapter\AdapterAbstractServiceFactory;
 
 return [
@@ -92,7 +97,17 @@ return [
             },
             'repositoryMapper' => function($sm) {
                 $adapter = $sm->get('RepoDb');
-                $mapper = new RepositoryMapper($adapter, 'repository');
+                $mapper = new RepositoryMapper($adapter, 'repository', 'id', new Repository);
+                return $mapper;
+            },
+            'commitLogMapper' => function($sm) {
+                $adapter = $sm->get('RepoDb');
+                $mapper = new CommitLogMapper($adapter, 'commit_log', 'commit_log_id', new CommitLog);
+                return $mapper;
+            },
+            'commitFileStatusMapper' => function($sm) {
+                $adapter = $sm->get('RepoDb');
+                $mapper = new CommitFileStatusMapper($adapter, 'commit_log', 'commit_log_id', new CommitFileStatus);
                 return $mapper;
             }
         ],
