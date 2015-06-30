@@ -1,0 +1,28 @@
+<?php
+
+use Zend\Form\Element;
+
+$form->setAttribute('action', $this->url('application/default', ['controller' => 'registration', 'action' => 'register']))
+    ->prepare();
+
+echo $this->form()->openTag($form);
+
+$repository = $form->get('repository');
+/** @var Element $url */
+$url = $repository->get('url');
+
+// echo $this->formRow($repository->get('url'));
+$hasErrors = !empty($url->getMessages());
+
+?>
+<div class="form-group <?php echo $hasErrors ? 'has-errors':''?>">
+  <label class="control-label" for="repositoryUrl"><?php echo $url->getLabel(); ?></label>
+  <?php echo $this->formElement($url); ?>
+  <?php echo $this->formElementErrors($url); ?>
+</div>
+
+<?php
+
+echo $this->formElement($form->get('submit'));
+
+echo $this->form()->closeTag();
