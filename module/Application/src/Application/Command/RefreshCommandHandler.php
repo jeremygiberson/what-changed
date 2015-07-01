@@ -4,9 +4,9 @@
 namespace Application\Command;
 
 
-use Application\Exception\CheckoutFailedException;
 use Application\Exception\CloneFailedException;
 use Application\Exception\FetchFailedException;
+use Application\Exception\LogFailedException;
 use Application\Model\Mapper\RepositoryMapperAwareInterface;
 use Application\Model\Mapper\RepositoryMapperAwareTrait;
 
@@ -40,6 +40,8 @@ class RefreshCommandHandler implements RepositoryMapperAwareInterface
                 throw CloneFailedException::fromReturnValue($return_value, $model->url);
             }
 
+            chdir($path);
+
             // checkout
             // todo
         } else {
@@ -57,6 +59,20 @@ class RefreshCommandHandler implements RepositoryMapperAwareInterface
         }
 
         // git log & parse
+        $count_command = sprintf("git rev-list HEAD --count");
+        exec($count_command, $output, $return_value);
+        if($return_value !== 0) {
+            throw new LogFailedException("Failed to get number of commits", $return_value);
+        }
+
+        // git log -n 25 until executions > commit count
+        /*
+        $count = (int) `$count_command`;
+
+        $command = sprintf("git log --name-status");
+        exec($command, $output, $return_value);
+
+        */
 
         $fp = fopen(__DIR__ . '/../../../../../data/refresh.log', 'a+');
         fwrite($fp, sprintf("Refreshed %s\n", $model->url));
