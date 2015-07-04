@@ -7,6 +7,7 @@ namespace Application\Command;
 use Application\Exception\CloneFailedException;
 use Application\Exception\FetchFailedException;
 use Application\Exception\LogFailedException;
+use Application\Git\Log\Parser;
 use Application\Model\Mapper\RepositoryMapperAwareInterface;
 use Application\Model\Mapper\RepositoryMapperAwareTrait;
 
@@ -66,7 +67,6 @@ class RefreshCommandHandler implements RepositoryMapperAwareInterface
         $perPage = 25;
         $skip = 0;
 
-        $log = '';
         //do {
             $command = sprintf("git log -n %s --skip=%s --name-status", $perPage, $skip);
             exec($command, $output, $return_value);
@@ -76,14 +76,16 @@ class RefreshCommandHandler implements RepositoryMapperAwareInterface
             }
 
             // parse output
-        $log .= join("\n", $output);
+            $parser = new Parser();
+            $commits = $parser->parse($output);
+
 
             $skip += $perPage;
             $remain -= $perPage;
         //} while ($remain > 0);
 
         $fp = fopen(__DIR__ . '/../../../../../data/refresh.log', 'a+');
-        fwrite($fp, sprintf("Refreshed %s\n%s\n-------\n", $model->url,$log));
+        fwrite($fp, sprintf("Refreshed %s\n%s\n-------\n", $model->url, print_r($commits, true)));
         fclose($fp);
     }
 }

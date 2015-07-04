@@ -25,4 +25,21 @@ class Commit extends AbstractModel
     public $commit_author;
     /** @var  string */
     public $commit_message;
+
+    /** @var  CommitFileStatus[] */
+    private $commit_file_statuses;
+
+    /**
+     * Commit constructor.
+     */
+    public function __construct()
+    {
+        $this->commit_file_statuses = [];
+    }
+
+
+    public function addCommitFileStatus($fileStatus)
+    {
+        $this->commit_file_statuses[] = $fileStatus;
+    }
 }
