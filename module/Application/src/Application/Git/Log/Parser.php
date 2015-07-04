@@ -81,7 +81,7 @@ class Parser
     {
         $dateTime = new DateTime(substr($line, strlen('Date: ')),
             New DateTimeZone('utc'));
-        $this->current_commit->commit_date = $dateTime;
+        $this->current_commit->setCommitDate($dateTime);
     }
 
     private function handleMessage($line)

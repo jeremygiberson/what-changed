@@ -20,6 +20,6 @@ class ConsoleController extends AbstractActionController implements CommandBusAw
 
         $this->getCommandBus()->handle($command);
 
-        return "done";
+        return "done\n";
     }
 }

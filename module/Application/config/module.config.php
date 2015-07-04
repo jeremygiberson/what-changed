@@ -88,6 +88,7 @@ return [
             RefreshCommandHandler::class => function ($sm) {
                 $instance = new RefreshCommandHandler;
                 $instance->setRepositoryMapper($sm->get('repositoryMapper'));
+                $instance->setCommitMapper($sm->get('CommitMapper'));
                 return $instance;
             },
             RegisterCommandHandler::class => function ($sm) {
@@ -100,14 +101,15 @@ return [
                 $mapper = new RepositoryMapper($adapter, 'repository', 'id', new Repository);
                 return $mapper;
             },
-            'commitLogMapper' => function($sm) {
+            'commitMapper' => function($sm) {
                 $adapter = $sm->get('RepoDb');
-                $mapper = new CommitMapper($adapter, 'commit_log', 'commit_log_id', new Commit);
+                $mapper = new CommitMapper($adapter, 'commit', 'commit_id', new Commit);
+                $mapper->setCommitFileStatusMapper($sm->get('commitFileStatusMapper'));
                 return $mapper;
             },
             'commitFileStatusMapper' => function($sm) {
                 $adapter = $sm->get('RepoDb');
-                $mapper = new CommitFileStatusMapper($adapter, 'commit_log', 'commit_log_id', new CommitFileStatus);
+                $mapper = new CommitFileStatusMapper($adapter, 'commit_file_status', 'commit_file_status_id', new CommitFileStatus);
                 return $mapper;
             }
         ],

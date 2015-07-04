@@ -8,12 +8,15 @@ use Application\Exception\CloneFailedException;
 use Application\Exception\FetchFailedException;
 use Application\Exception\LogFailedException;
 use Application\Git\Log\Parser;
+use Application\Model\Mapper\CommitMapperAwareInterface;
+use Application\Model\Mapper\CommitMapperAwareTrait;
 use Application\Model\Mapper\RepositoryMapperAwareInterface;
 use Application\Model\Mapper\RepositoryMapperAwareTrait;
 
-class RefreshCommandHandler implements RepositoryMapperAwareInterface
+class RefreshCommandHandler implements RepositoryMapperAwareInterface, CommitMapperAwareInterface
 {
     use RepositoryMapperAwareTrait;
+    use CommitMapperAwareTrait;
 
     public function __invoke(RefreshCommand $command)
     {
@@ -67,7 +70,9 @@ class RefreshCommandHandler implements RepositoryMapperAwareInterface
         $perPage = 25;
         $skip = 0;
 
-        //do {
+        $saved = 0;
+
+        do {
             $command = sprintf("git log -n %s --skip=%s --name-status", $perPage, $skip);
             exec($command, $output, $return_value);
             if($return_value !== 0)
@@ -78,14 +83,26 @@ class RefreshCommandHandler implements RepositoryMapperAwareInterface
             // parse output
             $parser = new Parser();
             $commits = $parser->parse($output);
+            foreach($commits as $commit) {
+                if($this->getCommitMapper()->hasCommit($commit->commit_hash))
+                {
+                    goto earlyTermination;
+                }
 
+                $commit->repository_id = $model->id;
+
+                $this->getCommitMapper()->save($commit);
+                $saved++;
+            }
 
             $skip += $perPage;
             $remain -= $perPage;
-        //} while ($remain > 0);
+            unset($output);
+        } while ($remain > 0);
+        earlyTermination:
 
         $fp = fopen(__DIR__ . '/../../../../../data/refresh.log', 'a+');
-        fwrite($fp, sprintf("Refreshed %s\n%s\n-------\n", $model->url, print_r($commits, true)));
+        fwrite($fp, sprintf("Refreshed %s with %s commits\n", $model->url, $saved));
         fclose($fp);
     }
 }

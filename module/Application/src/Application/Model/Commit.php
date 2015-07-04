@@ -10,6 +10,7 @@ namespace Application\Model;
 
 
 use DateTime;
+use DateTimeZone;
 
 class Commit extends AbstractModel
 {
@@ -19,7 +20,7 @@ class Commit extends AbstractModel
     public $repository_id;
     /** @var  string */
     public $commit_hash;
-    /** @var  DateTime */
+    /** @var  string */
     public $commit_date;
     /** @var  string */
     public $commit_author;
@@ -37,9 +38,39 @@ class Commit extends AbstractModel
         $this->commit_file_statuses = [];
     }
 
-
-    public function addCommitFileStatus($fileStatus)
+    /**
+     * @param CommitFileStatus $fileStatus
+     */
+    public function addCommitFileStatus(CommitFileStatus $fileStatus)
     {
         $this->commit_file_statuses[] = $fileStatus;
     }
+
+    /**
+     * @return CommitFileStatus[]
+     */
+    public function getCommitFileStatuses()
+    {
+        return $this->commit_file_statuses;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCommitDate()
+    {
+        return new DateTime($this->commit_date, new DateTimeZone('UTC'));
+    }
+
+    /**
+     * @param DateTime $commit_date
+     * @return self
+     */
+    public function setCommitDate(DateTime $commit_date)
+    {
+        $this->commit_date = $commit_date->format(DateTime::W3C);
+        return $this;
+    }
+
+
 }

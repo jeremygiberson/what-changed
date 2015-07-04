@@ -78,7 +78,8 @@ abstract class AbstractMapper implements AdapterAwareInterface
         {
             $this->tableGateway->update($model->toArray(), [$pKey => $model->{$pKey}]);
         } else {
-            $id = $this->tableGateway->insert($model->toArray());
+            $this->tableGateway->insert($model->toArray());
+            $id = $this->tableGateway->getLastInsertValue();
             $model->{$pKey} = $id;
         }
     }
