@@ -11,7 +11,7 @@ namespace Application\Model\Mapper;
 
 use Application\Model\Commit;
 
-class CommitLogMapper extends AbstractMapper
+class CommitMapper extends AbstractMapper
 {
     public function save(Commit $model)
     {

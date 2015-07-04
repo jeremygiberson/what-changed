@@ -20,7 +20,7 @@ use Application\Controller\RegistrationControllerFactory;
 use Application\Model\CommitFileStatus;
 use Application\Model\Commit;
 use Application\Model\Mapper\CommitFileStatusMapper;
-use Application\Model\Mapper\CommitLogMapper;
+use Application\Model\Mapper\CommitMapper;
 use Application\Model\Mapper\RepositoryMapper;
 use Application\Model\Repository;
 use Zend\Db\Adapter\AdapterAbstractServiceFactory;
@@ -102,7 +102,7 @@ return [
             },
             'commitLogMapper' => function($sm) {
                 $adapter = $sm->get('RepoDb');
-                $mapper = new CommitLogMapper($adapter, 'commit_log', 'commit_log_id', new Commit);
+                $mapper = new CommitMapper($adapter, 'commit_log', 'commit_log_id', new Commit);
                 return $mapper;
             },
             'commitFileStatusMapper' => function($sm) {
