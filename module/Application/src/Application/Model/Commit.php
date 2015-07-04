@@ -11,10 +11,10 @@ namespace Application\Model;
 
 use DateTime;
 
-class CommitLog extends AbstractModel
+class Commit extends AbstractModel
 {
     /** @var  int */
-    public $commit_log_id;
+    public $commit_id;
     /** @var  int */
     public $repository_id;
     /** @var  string */

@@ -9,11 +9,11 @@
 namespace Application\Model\Mapper;
 
 
-use Application\Model\CommitLog;
+use Application\Model\Commit;
 
 class CommitLogMapper extends AbstractMapper
 {
-    public function save(CommitLog $model)
+    public function save(Commit $model)
     {
         $this->internalSave($model);
     }

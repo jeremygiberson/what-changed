@@ -14,7 +14,7 @@ class CommitFileStatus extends AbstractModel
     /** @var  int */
     public $commit_file_status_id;
     /** @var  int */
-    public $commit_log_id;
+    public $commit_id;
     /** @var  string */
     public $status;
     /** @var  string */

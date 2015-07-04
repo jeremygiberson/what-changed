@@ -21,13 +21,9 @@ class RefreshCommandHandler implements RepositoryMapperAwareInterface
             return;
         }
 
-        list($protocol, $uri) = explode('://', $model->url);
-        $parsed = parse_url($uri);
-        $host = $parsed['PHP_URL_HOST'];
-        $project = rtrim(basename($parsed['PHP_URL_PATH']), '.git');
-
+        $md5 = md5($model->url);
         $basePath = __DIR__ . '/../../../../../data/git';
-        $path = sprintf('%s/%s/%s', $basePath, $host, $project);
+        $path = sprintf('%s/%s', $basePath, $md5);
         $currentDir = getcwd();
 
         if(!file_exists($path))
@@ -69,7 +65,9 @@ class RefreshCommandHandler implements RepositoryMapperAwareInterface
         $remain = (int) $output[0];
         $perPage = 25;
         $skip = 0;
-        do {
+
+        $log = '';
+        //do {
             $command = sprintf("git log -n %s --skip=%s --name-status", $perPage, $skip);
             exec($command, $output, $return_value);
             if($return_value !== 0)
@@ -78,13 +76,14 @@ class RefreshCommandHandler implements RepositoryMapperAwareInterface
             }
 
             // parse output
+        $log .= join("\n", $output);
 
             $skip += $perPage;
             $remain -= $perPage;
-        } while ($remain > 0);
+        //} while ($remain > 0);
 
         $fp = fopen(__DIR__ . '/../../../../../data/refresh.log', 'a+');
-        fwrite($fp, sprintf("Refreshed %s\n", $model->url));
+        fwrite($fp, sprintf("Refreshed %s\n%s\n-------\n", $model->url,$log));
         fclose($fp);
     }
 }
