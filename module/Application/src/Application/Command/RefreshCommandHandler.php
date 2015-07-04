@@ -66,13 +66,22 @@ class RefreshCommandHandler implements RepositoryMapperAwareInterface
         }
 
         // git log -n 25 until executions > commit count
-        /*
-        $count = (int) `$count_command`;
+        $remain = (int) $output[0];
+        $perPage = 25;
+        $skip = 0;
+        do {
+            $command = sprintf("git log -n %s --skip=%s --name-status", $perPage, $skip);
+            exec($command, $output, $return_value);
+            if($return_value !== 0)
+            {
+                throw new LogFailedException(sprintf("Failed to get %s commits after %s", $perPage, $skip));
+            }
 
-        $command = sprintf("git log --name-status");
-        exec($command, $output, $return_value);
+            // parse output
 
-        */
+            $skip += $perPage;
+            $remain -= $perPage;
+        } while ($remain > 0);
 
         $fp = fopen(__DIR__ . '/../../../../../data/refresh.log', 'a+');
         fwrite($fp, sprintf("Refreshed %s\n", $model->url));
