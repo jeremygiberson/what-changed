@@ -20,7 +20,10 @@ class IndexController extends AbstractActionController implements CommitMapperAw
 
     public function indexAction()
     {
+        $page = $this->params()->fromRoute('page', 1);
+
         $list = $this->getCommitMapper()->getList();
+        $list->setCurrentPageNumber($page);
 
         return new ViewModel(['items' => $list]);
     }

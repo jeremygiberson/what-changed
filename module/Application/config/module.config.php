@@ -58,14 +58,30 @@ return [
                     'default' => [
                         'type'    => 'Segment',
                         'options' => [
-                            'route'    => '/[:controller[/:action]]',
+                            'route'    => '/[:controller[/:action]][/:page]',
                             'constraints' => [
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'page' => '[0-9]*'
                             ],
                             'defaults' => [
+                                'page' => 1
                             ],
                         ],
+                    ],
+                ],
+            ],
+            'log' => [
+                'type'    => 'Segment',
+                'options' => [
+                    'route'    => '/log[/:page]',
+                    'constraints' => [
+                        'page' => '[0-9]*'
+                    ],
+                    'defaults' => [
+                        'controller' => 'Application\Controller\Index',
+                        'action' => 'index',
+                        'page' => 1
                     ],
                 ],
             ],

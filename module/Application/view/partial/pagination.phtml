@@ -1,0 +1,29 @@
+<?php if ($this->pageCount): ?>
+    <div class="text-center">
+        <ul class="pagination">
+            <!-- Previous page link -->
+            <?php if (isset($this->previous)): ?>
+                <li><a href="<?php echo $this->url($this->route, array('page' => $this->previous)); ?>">« prev</a></li>
+            <?php else: ?>
+                <li class="disabled"><a href="#">« prev</a></li>
+            <?php endif; ?>
+
+
+            <!-- Numbered page links -->
+            <?php foreach ($this->pagesInRange as $page): ?>
+                <?php if ($page != $this->current): ?>
+                    <li><a href="<?php echo $this->url($this->route, array('page' => $page)); ?>"><?=$page?></a></li>
+                <?php else: ?>
+                    <li class="active"><a href="#"><?=$this->current?> <span class="sr-only">(current)</span></a></li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+
+            <!-- Next page link -->
+            <?php if (isset($this->next)): ?>
+                <li><a href="<?php echo $this->url($this->route, array('page' => $this->next)); ?>">next »</a></li>
+            <?php else: ?>
+                <li class="disabled"><a href="#">next »</a></li>
+            <?php endif; ?>
+        </ul>
+    </div>
+<?php endif; ?>

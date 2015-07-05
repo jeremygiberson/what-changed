@@ -1,11 +1,23 @@
 <div class="row">
+    <h2>Commit Log</h2>
+</div>
+<div class="commit-log-list" id="commit-log">
+
     <?php
     use Application\Model\Commit;
 
     /** @var Commit $commit */
     foreach($this->items as $commit){?>
-    <div class="col-xs-3"><?php echo $commit->commit_date ?></div>
-    <div class="col-xs-3"><?php echo $commit->commit_author ?></div>
-    <div class="col-xs-6"><?php echo $commit->commit_message ?></div>
+
+    <?= $this->partial('partial/commit.phtml', ['commit' => $commit])?>
+
     <?php } ?>
 </div>
+
+
+
+
+<?php echo $this->paginationControl($this->items,
+    'Sliding',
+    'partial/pagination.phtml',
+    ['route' => 'log']); ?>

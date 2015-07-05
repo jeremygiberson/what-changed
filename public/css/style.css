@@ -35,3 +35,163 @@ div.container a.brand {
     margin-left: 0;
     padding: 8px 20px 12px 40px;
 }
+
+/** pagination **/
+.pagination>li>a, .pagination>li>span { border-radius: 5px !important;margin: 0 5px;}
+
+/** log css **/
+.log-item {
+    margin-bottom: 25px;
+    margin-left: 40px;
+    position: relative;
+}
+.log-item .log-inner {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 10px;
+    position: relative;
+}
+.log-item .log-inner:before {
+    border-right: 10px solid #ddd;
+    border-style: solid;
+    border-width: 10px;
+    color: rgba(0,0,0,0);
+    content: "";
+    display: block;
+    height: 0;
+    position: absolute;
+    left: -20px;
+    top: 6px;
+    width: 0;
+}
+.log-item .log-inner:after {
+    border-right: 10px solid #fff;
+    border-style: solid;
+    border-width: 10px;
+    color: rgba(0,0,0,0);
+    content: "";
+    display: block;
+    height: 0;
+    position: absolute;
+    left: -18px;
+    top: 6px;
+    width: 0;
+}
+.log-item:before {
+    background: #fff;
+    border-radius: 2px;
+    bottom: -30px;
+    box-shadow: 0 0 3px rgba(0,0,0,0.2);
+    content: "";
+    height: 100%;
+    left: -30px;
+    position: absolute;
+    width: 3px;
+}
+.log-item:after {
+    background: #fff;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    content: "";
+    height: 15px;
+    left: -36px;
+    position: absolute;
+    top: 10px;
+    width: 15px;
+}
+.clearfix:before, .clearfix:after {
+    content: " ";
+    display: table;
+}
+.log-item .log-head {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+}
+.log-item .log-head .avatar {
+    margin-right: 20px;
+}
+.log-item .log-head .user-detail {
+    overflow: hidden;
+}
+.log-item .log-head .user-detail h5 {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+}
+.log-item .log-head .post-meta {
+    float: left;
+    padding: 0 15px 0 0;
+}
+.log-item .log-head .post-meta >div {
+    color: #333;
+    font-weight: bold;
+    text-align: right;
+}
+
+.log-content p { white-space: pre-wrap; }
+
+.post-meta > div {
+    color: #777;
+    font-size: 12px;
+    line-height: 22px;
+}
+.log-item .log-head .post-meta >div {
+    color: #333;
+    font-weight: bold;
+    text-align: right;
+}
+.post-meta > div {
+    color: #777;
+    font-size: 12px;
+    line-height: 22px;
+}
+img {
+    min-height: 40px;
+    max-height: 40px;
+}
+
+/** notice **/
+.notice {
+    padding: 15px;
+    background-color: #fafafa;
+    border-left: 6px solid #7f7f84;
+    margin-bottom: 10px;
+    -webkit-box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+    box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+}
+.notice-sm {
+    padding: 10px;
+    font-size: 80%;
+}
+.notice-lg {
+    padding: 35px;
+    font-size: large;
+}
+.notice-success {
+    border-color: #80D651;
+}
+.notice-success>strong {
+    color: #80D651;
+}
+.notice-info {
+    border-color: #45ABCD;
+}
+.notice-info>strong {
+    color: #45ABCD;
+}
+.notice-warning {
+    border-color: #FEAF20;
+}
+.notice-warning>strong {
+    color: #FEAF20;
+}
+.notice-danger {
+    border-color: #d73814;
+}
+.notice-danger>strong {
+    color: #d73814;
+}

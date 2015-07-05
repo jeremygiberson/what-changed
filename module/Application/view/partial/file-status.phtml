@@ -1,0 +1,34 @@
+<?php
+    switch($this->fileStatus->status){
+        case 'M':
+            $long = 'modified';
+            $class = 'notice-success';
+            break;
+        case 'A':
+            $long = 'added';
+            $class = 'notice-success';
+            break;
+        case 'D':
+            $long = 'deleted';
+            $class = 'notice-danger';
+            break;
+        case 'R':
+            $long = 'renamed';
+            $class = 'notice-info';
+            break;
+        case 'C':
+            $long = 'copied';
+            $class = 'notice-info';
+            break;
+        case 'U':
+            $long = 'updated but unmerged';
+            $class = 'notice-info';
+            break;
+        default:
+            $long = $this->fileStatus->status;
+            $class = '';
+    }
+?>
+<div class="notice notice-sm <?=$class?>">
+    <strong title="<?= $long?>"><?=$this->fileStatus->status?></strong> <?=$this->fileStatus->name?>
+</div>
