@@ -22,9 +22,9 @@ class CommitMapper extends AbstractMapper
     use CommitFileStatusMapperAwareTrait;
     use RepositoryMapperAwareTrait;
 
-    const MATCH_CONTAINS = '%%s%';
-    const MATCH_BEGINS = '%s%';
-    const MATCH_ENDS = '%%s';
+    const MATCH_CONTAINS = '%%%s%%';
+    const MATCH_BEGINS = '%s%%';
+    const MATCH_ENDS = '%%%s';
 
     public function save(Commit $model)
     {
@@ -84,12 +84,13 @@ class CommitMapper extends AbstractMapper
     public function matchingFilename($filename, $match_pattern = self::MATCH_CONTAINS)
     {
         $select = $this->getTableGateway()->getSql()->select();
-        $select->join(['commit_file_status' => 'file'], 'commit.commit_id = file.commit_id', []);
+        $select->join(['file' => 'commit_file_status'], 'commit.commit_id = file.commit_id', []);
 
         $where = new Where();
         $where->like('file.name', sprintf($match_pattern, $filename));
+        $select->where($where);
 
-        $selectAdapter = new DbSelect($select, $this->adapter);
+        $selectAdapter = new DbSelect($select, $this->adapter, $this->getTableGateway()->getResultSetPrototype());
 
         $paginator = new CommitPaginator($selectAdapter);
         $paginator->setCommitFileStatusMapper($this->getCommitFileStatusMapper());

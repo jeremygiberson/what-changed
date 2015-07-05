@@ -40,6 +40,12 @@
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="<?php echo $this->url('home') ?>"><?php echo $this->translate('Home') ?></a></li>
                     </ul>
+                    <form class="navbar-form navbar-right" role="search" action="<?=$this->url('log')?>" method="GET">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="search" name="filter">
+                        </div>
+                        <button type="submit" class="btn btn-success">filter</button>
+                    </form>
                 </div><!--/.nav-collapse -->
             </div>
         </nav>

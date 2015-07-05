@@ -22,7 +22,13 @@ class IndexController extends AbstractActionController implements CommitMapperAw
     {
         $page = $this->params()->fromRoute('page', 1);
 
-        $list = $this->getCommitMapper()->getList();
+        if($filter = $this->params()->fromQuery('filter', null))
+        {
+            $list = $this->getCommitMapper()->matchingFilename($filter);
+        } else {
+            $list = $this->getCommitMapper()->getList();
+        }
+
         $list->setCurrentPageNumber($page);
 
         return new ViewModel(['items' => $list]);
