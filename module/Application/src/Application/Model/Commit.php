@@ -29,6 +29,8 @@ class Commit extends AbstractModel
 
     /** @var  CommitFileStatus[] */
     private $commit_file_statuses;
+    /** @var  Repository */
+    private $repository;
 
     /**
      * Commit constructor.
@@ -69,6 +71,24 @@ class Commit extends AbstractModel
     public function setCommitDate(DateTime $commit_date)
     {
         $this->commit_date = $commit_date->format(DateTime::W3C);
+        return $this;
+    }
+
+    /**
+     * @return Repository
+     */
+    public function getRepository()
+    {
+        return $this->repository;
+    }
+
+    /**
+     * @param Repository $repository
+     * @return self
+     */
+    public function setRepository($repository)
+    {
+        $this->repository = $repository;
         return $this;
     }
 

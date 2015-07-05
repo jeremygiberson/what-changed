@@ -122,6 +122,7 @@ return [
                 $adapter = $sm->get('RepoDb');
                 $mapper = new CommitMapper($adapter, 'commit', 'commit_id', new Commit);
                 $mapper->setCommitFileStatusMapper($sm->get('commitFileStatusMapper'));
+                $mapper->setRepositoryMapper($sm->get('repositoryMapper'));
                 return $mapper;
             },
             'commitFileStatusMapper' => function($sm) {

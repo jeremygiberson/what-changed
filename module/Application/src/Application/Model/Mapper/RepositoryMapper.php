@@ -24,4 +24,13 @@ class RepositoryMapper extends AbstractMapper
     {
         return $this->getTableGateway()->select(['url' => $url])->current();
     }
+
+    /**
+     * @param int $id
+     * @return null|Repository
+     */
+    public function findById($id)
+    {
+        return $this->getTableGateway()->select(['id' => $id])->current();
+    }
 }

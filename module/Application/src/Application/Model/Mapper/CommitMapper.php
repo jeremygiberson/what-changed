@@ -16,9 +16,11 @@ use Zend\Paginator\Adapter\DbSelect;
 use Zend\Paginator\Adapter\DbTableGateway;
 use Zend\Paginator\Paginator;
 
-class CommitMapper extends AbstractMapper implements CommitFileStatusMapperAwareInterface
+class CommitMapper extends AbstractMapper
+    implements CommitFileStatusMapperAwareInterface, RepositoryMapperAwareInterface
 {
     use CommitFileStatusMapperAwareTrait;
+    use RepositoryMapperAwareTrait;
 
     const MATCH_CONTAINS = '%%s%';
     const MATCH_BEGINS = '%s%';
@@ -51,6 +53,7 @@ class CommitMapper extends AbstractMapper implements CommitFileStatusMapperAware
         $gatewayAdapter = new DbTableGateway($this->getTableGateway());
         $paginator = new CommitPaginator($gatewayAdapter);
         $paginator->setCommitFileStatusMapper($this->getCommitFileStatusMapper());
+        $paginator->setRepositoryMapper($this->getRepositoryMapper());
 
         return $paginator;
     }
@@ -68,6 +71,7 @@ class CommitMapper extends AbstractMapper implements CommitFileStatusMapperAware
         $gatewayAdapter = new DbTableGateway($this->getTableGateway(), $where);
         $paginator = new CommitPaginator($gatewayAdapter);
         $paginator->setCommitFileStatusMapper($this->getCommitFileStatusMapper());
+        $paginator->setRepositoryMapper($this->getRepositoryMapper());
 
         return $paginator;
     }
@@ -89,6 +93,7 @@ class CommitMapper extends AbstractMapper implements CommitFileStatusMapperAware
 
         $paginator = new CommitPaginator($selectAdapter);
         $paginator->setCommitFileStatusMapper($this->getCommitFileStatusMapper());
+        $paginator->setRepositoryMapper($this->getRepositoryMapper());
 
         return $paginator;
     }

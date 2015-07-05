@@ -1,14 +1,15 @@
 <div class="log-item" id="m16">
     <div class="log-inner">
         <div class="log-head clearfix">
+            <div class="pull-right"><span class="label label-default"><?=$this->commit->getRepository()->url?></span></div>
             <div class="avatar pull-left"><a href="<?=$this->url('log', ['author' => $this->commit->commit_author])?>"><img src="https://sigil.cupcake.io/<?=$this->commit->commit_author?>"></a></div>
             <div class="user-detail">
-                <h5 class="handle"><?= substr($this->commit->commit_message, 0, 64)?> ...</h5>
+                <h5 class="handle"><?= substr($this->commit->commit_message, 0, 64)?><?=(strlen($this->commit->commit_message) > 64 ? '&#8230;' : '')?></h5>
                 <div class="post-meta">
                     <div class="asker-meta">
                         <span class="log-what"></span>
                             <span class="log-when">
-                                <span class="log-when-data"><?= $this->commit->commit_date?></span>
+                                <span class="log-when-data"><?= (new DateTime($this->commit->commit_date, new DateTimeZone('UTC')))->format('Y-m-d g:i a e')?></span>
                             </span>
                             <span class="log-who">
                                 <span class="log-who-pad">by </span>
