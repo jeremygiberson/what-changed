@@ -16,6 +16,7 @@ use Application\Command\RespondToWebHookCommandHandler;
 use Application\CommandBus\CommandBusFactory;
 use Application\Controller\ConsoleControllerFactory;
 use Application\Controller\GitlabControllerFactory;
+use Application\Controller\IndexControllerFactory;
 use Application\Controller\RegistrationControllerFactory;
 use Application\Model\CommitFileStatus;
 use Application\Model\Commit;
@@ -129,9 +130,9 @@ return [
     ],
     'controllers' => [
         'invokables' => [
-            'Application\Controller\Index' => 'Application\Controller\IndexController',
         ],
         'factories' => [
+            'Application\Controller\Index' => IndexControllerFactory::class,
             'Application\Controller\Gitlab' => GitlabControllerFactory::class,
             'Application\Controller\Console' => ConsoleControllerFactory::class,
             'Application\Controller\Registration' => RegistrationControllerFactory::class,

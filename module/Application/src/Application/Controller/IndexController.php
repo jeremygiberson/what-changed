@@ -9,13 +9,19 @@
 
 namespace Application\Controller;
 
+use Application\Model\Mapper\CommitMapperAwareInterface;
+use Application\Model\Mapper\CommitMapperAwareTrait;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class IndexController extends AbstractActionController
+class IndexController extends AbstractActionController implements CommitMapperAwareInterface
 {
+    use CommitMapperAwareTrait;
+
     public function indexAction()
     {
-        return new ViewModel();
+        $list = $this->getCommitMapper()->getList();
+
+        return new ViewModel(['items' => $list]);
     }
 }
